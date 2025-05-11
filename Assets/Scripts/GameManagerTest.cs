@@ -6,18 +6,19 @@ public class GameManagerTest : MonoBehaviour
 {
     void Start()
     {
-        // Creamos enemigos con habilidades específicas
-        Enemigo enemigo1 = new EnemigoAtacante("Enemigo Orco", 100, 50);
-        Enemigo enemigo2 = new EnemigoAtacante("Enemigo Curador", 80, 30);
+        Enemigo enemigo1 = new EnemigoAtacante("Orco Guerrero", 100, 50);
+        Enemigo enemigo2 = new Enemigo("Hechicero", 80, 30, new Curar());
 
-        // Usamos las habilidades
-        enemigo1.UsarHabilidad(); // El enemigo ataca
-        enemigo2.UsarHabilidad(); // El enemigo se cura
+        IItem pocion = new Pocion("Poción de Vida", 30);
+        IItem espada = new Espada("Espada de Hierro", 15);
 
-        // Recibimos daño y morimos
-        enemigo1.RecibirDanio(110); // El enemigo atacará y luego morirá
-        enemigo1.RecibirDaño(20, 1.5f);
-        enemigo2.RecibirDanio(80);
-        enemigo2.RecibirDaño(10, 2.5f);// El enemigo curador morirá después de recibir daño
+        pocion.Usar();
+        espada.Usar();
+
+        enemigo1.UsarHabilidad();
+        enemigo2.UsarHabilidad();
+
+        enemigo1.RecibirDaño(40);
+        enemigo2.RecibirDaño(25, 2f);
     }
 }

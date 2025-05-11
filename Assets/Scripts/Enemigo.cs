@@ -26,6 +26,8 @@ public class Enemigo : IRecibirDanio, IDropItem
         habilidad = _habilidad;
         Debug.Log("Se ha creado el enemigo: " + nombre + " con " + salud + " de salud y " + scoreAlMorir + " de score al morir.");
     }
+    public Enemigo(string _nombre, int _salud, int _scoreAlMorir)
+        : this(_nombre, _salud, _scoreAlMorir, new Atacar()) { }
     #endregion
 
     #region Métodos
@@ -47,6 +49,10 @@ public class Enemigo : IRecibirDanio, IDropItem
         {
             Morir();
         }
+    }
+    public void RecibirDaño(int danio) 
+    {
+        RecibirDanio(danio);
     }
 
     public void Morir()
