@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : IRecibirDanio
 {
     private string nombre;
     private int vida;
@@ -25,13 +25,21 @@ public class Player : MonoBehaviour
 
     public void Atacar(Enemigo enemigo)
     {
+        if(vida <= 0)
+            throw new System.Exception(nombre + " ya está muerto y no puede atacar");
+
         if (durabilidad <= 0)
             throw new System.Exception("El arma está rota y no puedes atacar");
 
-        int dañioAleatorio = Random.Range(dañioBase - 2, dañioBase + 3);
+        int dañioAleatorio = Random.Range(dañioBase - 5, dañioBase + 5);
+        int desgaste = Random.Range(1, 3);
+
         enemigo.RecibirDanio(dañioAleatorio);
-        durabilidad--;
+        durabilidad -= desgaste;
         Debug.Log(nombre + " ataco a " + enemigo.Nombre + " causando " + dañioAleatorio + " de daño. Durabilidad restante: " + durabilidad);
+        
+        if (durabilidad <= 0)
+            throw new System.Exception("El arma se rompió tras el ataque.");
     }
 
     public void RecibirDanio(int danio)
@@ -39,7 +47,7 @@ public class Player : MonoBehaviour
         vida -= danio;
         Debug.Log(nombre + " recibió " + danio + " de daño. Vida restante: " + vida);
         if(vida <= 0)
-            Debug.Log(nombre + " ha muerto.");
+            throw new System.Exception(nombre + " ha muerto.");
     }
 
     public void RecibirDaño(int danio, float multiplicador)

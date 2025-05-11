@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Espada : Item
+public class Espada : IItem
 {
-    private int dano;
+    public string Nombre;
+    public int DanioBase;
+    public int Durabilidad;
 
-    public Espada(string nombre, int dano) : base(nombre)
+    public Espada(string nombre, int danio, int durabilidad = 5)
     {
-        this.dano = dano;
+        Nombre = nombre;
+        DanioBase = danio;
+        Durabilidad = durabilidad;
     }
 
-    public override void Usar()
+    public int UsarEspada()
     {
-        Debug.Log("Usaste la espada " + nombre + ". Causas " + dano + " de daño.");
+        if (Durabilidad <= 0)
+            throw new Exception("El arma ya no tiene durabilidad.");
+
+        Durabilidad -= UnityEngine.Random.Range(1, 3);
+        return UnityEngine.Random.Range(1, DanioBase + 1);
+    }
+
+    public void Usar()
+    {
+        Debug.Log(Nombre + " usada " + "durabilidad: " + Durabilidad);
     }
 }

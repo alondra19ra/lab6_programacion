@@ -38,6 +38,7 @@ public class Enemigo : IRecibirDanio, IDropItem
         if (salud <= 0)
         {
             Morir();
+            throw new System.Exception(nombre + " ha muerto.");
         }
     }
     public void RecibirDaño(int danio, float multiplicador)

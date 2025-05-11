@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameManagerTest : MonoBehaviour
 {
+    private Player jugador;
+    private EnemigoAtacante enemigo;
+
     void Start()
     {
         /*Enemigo enemigo1 = new EnemigoAtacante("Orco Guerrero", 100, 50);
@@ -21,34 +25,30 @@ public class GameManagerTest : MonoBehaviour
         enemigo1.RecibirDaño(40);
         enemigo2.RecibirDaño(25, 2f);*/
 
-        Player jugador = new Player("Heroe", 100, 20, 5);
-        EnemigoAtacante enemigo = new EnemigoAtacante("Orco Guerrero", 80, 50);
+        jugador = new Player("Heroe", 100, 20, 5);
+        enemigo = new EnemigoAtacante("Orco Guerrero", 80, 50);
 
+    }
 
-        for (int turno = 1; turno <= 5; turno++)
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            Debug.Log("------ Turno " + turno + " ------");
-
+            Debug.Log("=== Combate iniciado (tecla A) ===");
             try
             {
                 jugador.Atacar(enemigo);
+
+                int danioEnemigo = UnityEngine.Random.Range(10, 20);
+                jugador.RecibirDanio(danioEnemigo);
+
+                enemigo.AtacarJugador();
             }
-            catch (System.Exception ex)
+
+            catch(System.Exception ex)
             {
-                Debug.LogWarning("Error al atacar: " + ex.Message);
+                Debug.Log("Peligro" + ex.Message);
             }
-
-            enemigo.AtacarJugador();
-
-            int danioAlJugador = Random.Range(5, 15);
-            jugador.RecibirDanio(danioAlJugador);
-
-            if (enemigo.Salud > 0 && jugador.Vida > 0)
-            {
-                continue;
-            }
-            Debug.Log("¡Fin del combate!");
-            break;
         }
     }
 }
